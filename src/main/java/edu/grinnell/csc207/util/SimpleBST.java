@@ -12,8 +12,13 @@ import java.util.function.BiConsumer;
  * @author Your Name Here
  * @author Your Name Here
  * @author Samuel A. Rebelsky
+ *
+ * @param <K>
+ *   The type used for keys.
+ * @param <V>
+ *   The type used for values.
  */
-public class SimpleBST<K,V> implements SimpleMap<K,V> {
+public class SimpleBST<K, V> implements SimpleMap<K, V> {
 
   // +--------+------------------------------------------------------
   // | Fields |
@@ -22,18 +27,18 @@ public class SimpleBST<K,V> implements SimpleMap<K,V> {
   /**
    * The root of our tree. Initialized to null for an empty tree.
    */
-  BSTNode<K,V> root;
+  BSTNode<K, V> root;
 
   /**
    * The comparator used to determine the ordering in the tree.
    */
-  Comparator<? super K> comparator;
+  Comparator<? super K> order;
 
   /**
    * The size of the tree.
    */
   int size;
-  
+
   /**
    * A cached value (useful in some circumstances.
    */
@@ -44,18 +49,21 @@ public class SimpleBST<K,V> implements SimpleMap<K,V> {
   // +--------------+
 
   /**
-   * Create a new binary search tree that orders values using the 
+   * Create a new binary search tree that orders values using the
    * specified comparator.
+   *
+   * @param comp
+   *   The comparator used to compare keys.
    */
-  public SimpleBST(Comparator<? super K> comparator) {
-    this.comparator = comparator;
+  public SimpleBST(Comparator<? super K> comp) {
+    this.order = comp;
     this.root = null;
     this.size = 0;
     this.cachedValue = null;
   } // SimpleBST(Comparator<K>)
 
   /**
-   * Create a new binary search tree that orders values using a 
+   * Create a new binary search tree that orders values using a
    * not-very-clever default comparator.
    */
   public SimpleBST() {
@@ -68,7 +76,7 @@ public class SimpleBST<K,V> implements SimpleMap<K,V> {
 
   /**
    * Set the value associated with key.
-   * 
+   *
    * @param key
    *   The key to use.
    * @param value
@@ -76,17 +84,17 @@ public class SimpleBST<K,V> implements SimpleMap<K,V> {
    *
    * @return the previous value associated with key (or null, if there's no
    *         such value)
-   *         
+   *
    * @throws NullPointerException if the key is null.
    */
   @Override
   public V set(K key, V value) {
     return null;        // STUB
-  } // set(K,V)
+  } // set(K, V)
 
   /**
    * Get the value associated with key.
-   * 
+   *
    * @param key
    *   The key to use.
    *
@@ -101,7 +109,7 @@ public class SimpleBST<K,V> implements SimpleMap<K,V> {
       throw new NullPointerException("null key");
     } // if
     return get(key, root);
-  } // get(K,V)
+  } // get(K, V)
 
   /**
    * Determine how many key/value pairs are in the map.
@@ -131,7 +139,7 @@ public class SimpleBST<K,V> implements SimpleMap<K,V> {
    *
    * @param key
    *   The key to remove.
-   * 
+   *
    * @return The associated value (or null, if there is no associated value).
    * @throws NullPointerException if the key is null.
    */
@@ -148,7 +156,7 @@ public class SimpleBST<K,V> implements SimpleMap<K,V> {
   @Override
   public Iterator<K> keys() {
     return new Iterator<K>() {
-      Iterator<BSTNode<K,V>> nit = SimpleBST.this.nodes();
+      Iterator<BSTNode<K, V>> nit = SimpleBST.this.nodes();
 
       @Override
       public boolean hasNext() {
@@ -175,7 +183,7 @@ public class SimpleBST<K,V> implements SimpleMap<K,V> {
   @Override
   public Iterator<V> values() {
     return new Iterator<V>() {
-      Iterator<BSTNode<K,V>> nit = SimpleBST.this.nodes();
+      Iterator<BSTNode<K, V>> nit = SimpleBST.this.nodes();
 
       @Override
       public boolean hasNext() {
@@ -233,7 +241,7 @@ public class SimpleBST<K,V> implements SimpleMap<K,V> {
    * @param indent
    *   How much to indent the subtree.
    */
-  void dump(PrintWriter pen, BSTNode<K,V> node, String indent) {
+  void dump(PrintWriter pen, BSTNode<K, V> node, String indent) {
     if (node == null) {
       pen.println(indent + "<>");
     } else {
@@ -244,7 +252,7 @@ public class SimpleBST<K,V> implements SimpleMap<K,V> {
       } // if has children
     } // else
   } // dump
-  
+
   /**
    * Get the value associated with a key in a subtree rooted at node.  See the
    * top-level get for more details.
@@ -254,33 +262,36 @@ public class SimpleBST<K,V> implements SimpleMap<K,V> {
    * @param node
    *   The root of the subtree to look through.
    *
+   * @return
+   *   The corresponding value.
+   *
    * @throws IndexOutOfBoundsException
    *   when the key is not in the subtree.
    */
-  V get(K key, BSTNode<K,V> node) {
+  V get(K key, BSTNode<K, V> node) {
     if (node == null) {
       throw new IndexOutOfBoundsException("Invalid key: " + key);
-    }
-    int comp = comparator.compare(key, node.key);
+    } // if
+    int comp = order.compare(key, node.key);
     if (comp == 0) {
       return node.value;
     } else if (comp < 0) {
       return get(key, node.left);
     } else {
       return get(key, node.right);
-    }
-  } // get(K, BSTNode<K,V>)
+    } // if/else
+  } // get(K, BSTNode<K, V>)
 
   /**
-   * Get an iterator for all of the nodes. (Useful for implementing the 
+   * Get an iterator for all of the nodes. (Useful for implementing the
    * other iterators.)
    *
    * @return an iterator for all of the other nodes.
    */
-  Iterator<BSTNode<K,V>> nodes() {
-    return new Iterator<BSTNode<K,V>>() {
+  Iterator<BSTNode<K, V>> nodes() {
+    return new Iterator<BSTNode<K, V>>() {
 
-      Stack<BSTNode<K,V>> stack = new Stack<BSTNode<K,V>>();
+      Stack<BSTNode<K, V>> stack = new Stack<BSTNode<K, V>>();
       boolean initialized = false;
 
       @Override
@@ -290,7 +301,7 @@ public class SimpleBST<K,V> implements SimpleMap<K,V> {
       } // hasNext()
 
       @Override
-      public BSTNode<K,V> next() {
+      public BSTNode<K, V> next() {
         checkInit();
         // STUB
         return null;
@@ -306,6 +317,3 @@ public class SimpleBST<K,V> implements SimpleMap<K,V> {
   } // nodes()
 
 } // class SimpleBST
-
-
-  

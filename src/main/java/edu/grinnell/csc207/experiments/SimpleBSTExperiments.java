@@ -25,14 +25,14 @@ public class SimpleBSTExperiments {
    * @param strings
    *   The strings we're adding.
    */
-  static void addStrings(SimpleBST<String,String> example, String[] strings) {
+  static void addStrings(SimpleBST<String, String> example, String[] strings) {
     for (String str : strings) {
       example.set(key(str), str);
     } // for
   } // add
 
   /**
-   * Some experiments with getting values
+   * Some experiments with getting values.
    *
    * @param pen
    *   The PrintWriter used to print output.
@@ -41,7 +41,7 @@ public class SimpleBSTExperiments {
    * @param strings
    *   The strings we're trying to get.
    */
-  static void getExperiment(PrintWriter pen, SimpleBST<String,String> example,
+  static void getExperiment(PrintWriter pen, SimpleBST<String, String> example,
       String[] strings) {
     for (String str : strings) {
       String key = key(str);
@@ -79,7 +79,7 @@ public class SimpleBSTExperiments {
    *   The string we're removing.
    */
   static void removeExperiment(PrintWriter pen,
-      SimpleBST<String,String> example, String str) {
+      SimpleBST<String, String> example, String str) {
     pen.println("Removing '" + str + "'");
     example.remove(key(str));
     example.dump(pen);
@@ -91,7 +91,7 @@ public class SimpleBSTExperiments {
   // +------+
 
   /**
-   * Run the experiments
+   * Run the experiments.
    *
    * @param args
    *   Command-line arguments (ignored).
@@ -99,7 +99,7 @@ public class SimpleBSTExperiments {
   public static void main(String[] args) {
     PrintWriter pen = new PrintWriter(System.out, true);
 
-    SimpleBST<String,String> example = new SimpleBST<String,String>();
+    SimpleBST<String, String> example = new SimpleBST<String, String>();
 
     String[] phase1 = {"civet", "aardvark", "koala", "llama", "moose",
         "jackalope", "baboon", "dingo"};
@@ -114,9 +114,9 @@ public class SimpleBSTExperiments {
     getExperiment(pen, example, phase1);
     example.dump(pen); // Does the tree change?
     pen.println();
-    
+
     pen.println("Checking forEach");
-    example.forEach((key,value) -> pen.println(key + ": " + value));
+    example.forEach((key, value) -> pen.println(key + ": " + value));
 
     pen.println("Starting phase 2");
     addStrings(example, phase2);

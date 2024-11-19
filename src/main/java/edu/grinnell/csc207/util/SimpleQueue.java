@@ -5,6 +5,11 @@ import java.util.NoSuchElementException;
 /**
  * A simple (and not thoroughly tested) implementation of
  * queues.
+ *
+ * @author Samuel A. Rebelsky
+ *
+ * @param <T>
+ *   The type of elements stored in the queue.
  */
 public class SimpleQueue<T> {
 
@@ -48,7 +53,7 @@ public class SimpleQueue<T> {
   public T dequeue() {
     if (this.front == null) {
       throw new NoSuchElementException("Empty queue");
-    }
+    } // if
     T value = this.front.value;
     this.front = this.front.next;
     if (this.front == null) {
@@ -103,6 +108,9 @@ public class SimpleQueue<T> {
 
 /**
  * Nodes for our simple queues.
+ *
+ * @param <T>
+ *   The type of values in the queue (and the queue nodes).
  */
 class QNode<T> {
   /**
@@ -117,9 +125,12 @@ class QNode<T> {
 
   /**
    * Create a new node with no next node.
+   *
+   * @param v
+   *   The value to store in the node.
    */
-  public QNode(T value) {
-    this.value = value;
+  public QNode(T v) {
+    this.value = v;
     this.next = null;
   } // QNode(T)
 } // QNode<T>
