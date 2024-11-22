@@ -5,12 +5,13 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Stack;
 import java.util.function.BiConsumer;
+import org.w3c.dom.Node;
 
 /**
  * A simple implementation of binary search trees.
  *
- * @author Your Name Here
- * @author Your Name Here
+ * @author Moses
+ * @author Tiffany
  * @author Samuel A. Rebelsky
  *
  * @param <K>
@@ -89,7 +90,8 @@ public class SimpleBST<K, V> implements SimpleMap<K, V> {
    */
   @Override
   public V set(K key, V value) {
-    return null;        // STUB
+    this.root = insert(this.root, key, value);
+    return this.cachedValue;
   } // set(K, V)
 
   /**
@@ -230,6 +232,27 @@ public class SimpleBST<K, V> implements SimpleMap<K, V> {
   // +---------+-----------------------------------------------------
   // | Helpers |
   // +---------+
+
+  /**
+   * Takes a node in addition to the key and value as parameters and returns a modified subtree.
+   * @param pen
+   * @param node
+   * @param indent
+   */
+  BSTNode<K, V> insert(BSTNode<K, V> node, K key, V value) {
+    if (node == null) {
+      return new BSTNode<K,V>(key, value);
+    } 
+    int comp = order.compare(key, node.key);
+    if (comp < 0) {
+      node.left = insert(node.left, key, value);
+    } else if (comp > 0) {
+      node.left = insert(node.right, key, value);
+    } else {
+      node.value = value;
+    } //if
+    return node;
+  } //insert(BSTNode<K, V>, key, value)
 
   /**
    * Dump a portion of the tree to some output location.

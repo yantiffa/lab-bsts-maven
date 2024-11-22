@@ -7,8 +7,8 @@ import java.io.PrintWriter;
 /**
  * A set of simple experiments with SimpleBSTs.
  *
- * @author Your Name Here
- * @author Your Name Here
+ * @author Moses
+ * @author Tiffany
  * @author Samuel A. Rebelsky
  */
 public class SimpleBSTExperiments {
