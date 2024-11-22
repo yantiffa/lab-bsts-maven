@@ -120,7 +120,7 @@ public class SimpleBST<K, V> implements SimpleMap<K, V> {
    */
   @Override
   public int size() {
-    return 0;           // STUB
+    return this.size;           // STUB
   } // size()
 
   /**
